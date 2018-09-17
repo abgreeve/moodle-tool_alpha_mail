@@ -1,0 +1,13 @@
+#alpha_mail_container {
+    display: block;
+    position: absolute;
+    border: 1px solid grey;
+    background: white;
+    right:200px;
+    top:50px;
+}
+
+.trigger_alpha_mail {
+    margin-top:11px !important;
+}
+
