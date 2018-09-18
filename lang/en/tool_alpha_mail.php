@@ -1,3 +1,4 @@
+<?php
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -14,30 +15,12 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * JS for Alpha Mail.
+ * Language strings.
  *
  * @package    tool_alpha_mail
  * @copyright  2018 Cameron Ball <cameron@cameron1729.xyz>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-var $ = window.jQuery;
-var container = $('#alpha_mail_container');
-var trigger = $('.trigger_alpha_mail');
-var dismiss = $('#alpha_mail_acknowledge');
-
-container.hide();
-
-trigger.click(function() {
-    container.toggle();
-});
-
-dismiss.click(function() {
-    window.console.log('clicked');
-    $.ajax({
-        url: M.cfg.wwwroot + "/admin/tool/alpha_mail/ajax.php"
-    }).done(function() {
-        container.hide();
-        trigger.hide();
-    });
-});
+$string['alphamailmessages'] = 'Site messages';
+$string['showmessages'] = 'Toggle site messages';
