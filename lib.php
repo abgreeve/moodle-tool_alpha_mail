@@ -25,35 +25,23 @@
 defined('MOODLE_INTERNAL') || die();
 
 function tool_alpha_mail_render_navbar_output(renderer_base $renderer) {
-    global $USER, $CFG, $DB, $OUTPUT, $PAGE;
+    global $USER, $DB;
 
     if (!isloggedin()) {
         return '';
     }
 
-    $PAGE->requires->js(new moodle_url('https://code.jquery.com/jquery-3.3.1.min.js'));
-    $PAGE->requires->js(new moodle_url('/admin/tool/alpha_mail/clearmessages.js'));
+    // array_values is needed to reindex the array for the tempalate. Without it the keys have the same ID from the DB.
+    $messages = array_values($DB->get_records('tool_alpha_mail_messages', ['userid' => $USER->id]));
+    $templatecontext = [
+        'messages' => $messages
+    ];
 
-    $message = $DB->get_record_sql('SELECT * FROM {tool_alpha_mail_messages} WHERE userid=:userid ORDER BY id DESC LIMIT 1', ['userid' => $USER->id]);
+    return $renderer->render_from_template('tool_alpha_mail/mail_popover', $templatecontext);
+}
 
-    if ($message->read) {
-        return '';
-    }
-
-    if ($message) {
-        $output =
-                $OUTPUT->pix_icon('i/info', '', 'moodle', ['class' => 'trigger_alpha_mail']) .
-                html_writer::start_tag('div', ['id' => 'alpha_mail_container']) .
-                $message->body .
-                html_writer::start_tag('div', ['id' => 'alpha_mail_acknowledge']) .
-                'Dismiss' .
-                html_writer::end_tag('div') .
-                html_writer::link(new moodle_url('/admin/tool/alpha_mail/seeall.php'), 'See all') .
-                html_writer::end_tag('div');
-
-
-        return $output;
-    }
-
-    return '';
+function tool_alpha_mail_get_fontawesome_icon_map() {
+    return [
+        'tool_alpha_mail:i/notifications' => 'fa-info-circle'
+    ];
 }
