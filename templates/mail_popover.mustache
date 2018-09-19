@@ -24,19 +24,12 @@
     {{$headertext}}{{#str}} alphamailmessages, tool_alpha_mail {{/str}}{{/headertext}}
 
     {{$content}}
-        <div class="all-notifications">{{#messages}} {{!-- Must be on the same line or core's CSS rules don't work. --}}
-             <div class="content-item-container notification">
-                 <div class="content-item-body">
-                     <div class="notification-message">{{body}}</div>
-                  </div>
-             </div>
-        {{/messages}}
-        </div>
+        <div class="all-notifications"></div>
         <div class="empty-message">{{#str}} nonotifications, message {{/str}}</div>
     {{/content}}
 {{/ core/popover_region }}
 {{#js}}
-    require(['jquery', 'core/popover_region_controller'], function($, PopoverController) {
+    require(['jquery', 'core/popover_region_controller', 'core/ajax', 'core/templates'], function($, PopoverController, Ajax, Templates) {
         var AlphaMailPopoverController = function(root) {
             PopoverController.call(this, root);
             this.root = root;
@@ -46,5 +39,16 @@
         AlphaMailPopoverController.prototype.constructor = AlphaMailPopoverController;
 
         new AlphaMailPopoverController($('#alpha-mail-popover-container'));
+
+        Ajax.call([
+            {methodname: 'tool_alpha_mail_get_popup_messages', args: []}
+        ])[0].then(function(result) {
+            return Templates.render(
+                'tool_alpha_mail/mail_popover_list',
+                 {messages: result}
+            ).done(function(html, js) {
+                Templates.replaceNodeContents($('.all-notifications'), html, js);
+            });
+        });
     });
 {{/js}}
