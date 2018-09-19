@@ -27,7 +27,7 @@ defined('MOODLE_INTERNAL') || die();
 function tool_alpha_mail_render_navbar_output(renderer_base $renderer) {
     global $USER, $DB;
 
-    if (!isloggedin()) {
+    if (!isloggedin() ||  !has_capability('tool/alpha_mail:viewmessages', context_user::instance($USER->id))) {
         return '';
     }
 

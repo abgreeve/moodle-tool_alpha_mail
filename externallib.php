@@ -35,6 +35,10 @@ class tool_alpha_mail_external extends external_api {
     public static function get_popup_messages() {
         global $DB, $USER;
 
+        if (!has_capability('tool/alpha_mail:viewmessages', context_user::instance($USER->id))) {
+            throw new moodle_exception('nopermissions', 'error', '', 'access site messages');
+        }
+
         self::validate_context(context_system::instance());
         $messages = array_values($DB->get_records('tool_alpha_mail_messages', ['userid' => $USER->id]));
 
