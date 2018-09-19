@@ -15,27 +15,32 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Alpha code for the mail plugin.
+ * Alpha Mail message repository.
  *
  * @package    tool_alpha_mail
  * @copyright  2018 Cameron Ball <cameron@cameron1729.xyz>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace tool_alpha_mail\local;
 defined('MOODLE_INTERNAL') || die();
 
-function tool_alpha_mail_render_navbar_output(renderer_base $renderer) {
-    global $USER;
+use moodle_database;
 
-    if (!has_capability('tool/alpha_mail:viewmessages', context_user::instance($USER->id))) {
-        return '';
+/**
+ * Repository of messages.
+ *
+ * @copyright 2018 Cameron Ball <cameron@cameron1729.xyz>
+ * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+class message_repository {
+    private $db;
+
+    public function __construct(moodle_database $db) {
+        $this->db = $db;
     }
 
-    return $renderer->render_from_template('tool_alpha_mail/mail_popover', []);
-}
-
-function tool_alpha_mail_get_fontawesome_icon_map() {
-    return [
-        'tool_alpha_mail:i/notifications' => 'fa-info-circle'
-    ];
+    public function get_messages_for_user(int $userid) {
+        return array_values($this->db->get_records('tool_alpha_mail_messages', ['userid' => $userid]));
+    }
 }

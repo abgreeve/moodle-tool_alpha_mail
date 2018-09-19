@@ -24,6 +24,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+use tool_alpha_mail\local\message_repository;
+
 require_once($CFG->libdir . '/externallib.php');
 
 class tool_alpha_mail_external extends external_api {
@@ -40,9 +42,7 @@ class tool_alpha_mail_external extends external_api {
         }
 
         self::validate_context(context_system::instance());
-        $messages = array_values($DB->get_records('tool_alpha_mail_messages', ['userid' => $USER->id]));
-
-        return $messages;
+        return (new message_repository($DB))->get_messages_for_user($USER->id);
     }
 
     protected static function get_popup_messages_returns() {
