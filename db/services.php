@@ -31,5 +31,13 @@ $functions = [
         'description' => 'Retrieve a list of messages from the admin',
         'type' => 'read',
         'ajax' => true,
+    ],
+
+    'tool_alpha_mail_mark_popup_messages_as_read' => [
+        'classname' => 'tool_alpha_mail_external',
+        'methodname' => 'mark_popup_messages_as_read',
+        'description' => 'Mark all messages as read',
+        'type' => 'write',
+        'ajax' => true,
     ]
 ];

@@ -28,9 +28,26 @@ define(
         'core/ajax',
         'core/templates',
         'core/popover_region_controller',
+        'core/url',
+        'core/custom_interaction_events'
     ],
-    function($, Ajax, Templates, PopoverController) {
+    function($, Ajax, Templates, PopoverController, URL, CustomEvents) {
+        var registerEventListeners = function(root) {
+            root.on(CustomEvents.events.activate, '[data-action="mark-all-read"]', function(e) {
+                Ajax.call([
+                    {
+                        methodname: 'tool_alpha_mail_mark_popup_messages_as_read',
+                        args: []
+                    }
+                ])[0].done(function() {
+                    root.find('[data-region="count-container"]').addClass('hidden');
+                    root.find('.notification.unread').removeClass('unread');
+                });
+            });
+        };
+
         var AlphaMailPopoverController = function(root) {
+            registerEventListeners(root);
             PopoverController.call(this, root);
             this.root = root;
         };
@@ -45,6 +62,11 @@ define(
                     args: []
                 }
             ])[0].then(function(result) {
+                this.renderUnreadCount(
+                    result.filter(function(message) {
+                        return !message.read;
+                    }
+                ).length);
                 return Templates.render(
                     'tool_alpha_mail/mail_popover_list',
                     {messages: result}
@@ -52,6 +74,12 @@ define(
                     Templates.replaceNodeContents(this.root.find('.all-notifications'), html, js);
                 }.bind(this));
             }.bind(this));
+        };
+
+        AlphaMailPopoverController.prototype.renderUnreadCount = function(count) {
+            if (count > 0) {
+                this.root.find('[data-region="count-container"]').text(count).removeClass('hidden');
+            }
         };
 
         return AlphaMailPopoverController;

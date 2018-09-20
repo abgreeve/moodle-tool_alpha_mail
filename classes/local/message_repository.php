@@ -25,6 +25,7 @@
 namespace tool_alpha_mail\local;
 defined('MOODLE_INTERNAL') || die();
 
+use context_user;
 use moodle_database;
 
 /**
@@ -41,6 +42,18 @@ class message_repository {
     }
 
     public function get_messages_for_user(int $userid) {
+        if (!has_capability('tool/alpha_mail:viewmessages', context_user::instance($userid))) {
+            throw new moodle_exception('nopermissions', 'error', '', 'access site messages');
+        }
+
         return array_values($this->db->get_records('tool_alpha_mail_messages', ['userid' => $userid]));
+    }
+
+    public function mark_messages_as_read_for_user(int $userid) {
+        if (!has_capability('tool/alpha_mail:viewmessages', context_user::instance($userid))) {
+            throw new moodle_exception('nopermissions', 'error', '', 'access site messages');
+        }
+
+        $this->db->execute("UPDATE {tool_alpha_mail_messages} SET read=1 WHERE userid=:userid", ['userid' => $userid]);
     }
 }

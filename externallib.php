@@ -45,6 +45,7 @@ class tool_alpha_mail_external extends external_api {
         return new external_multiple_structure(
             new external_single_structure(
                 [
+                    'read' => new external_value(PARAM_BOOL, 'is the message read or not'),
                     'body' => new external_value(PARAM_TEXT, 'the message body')
                 ]
             )
@@ -52,6 +53,21 @@ class tool_alpha_mail_external extends external_api {
     }
 
     protected static function get_popup_messages_parameters() {
+        return new external_function_parameters([]);
+    }
+
+    public static function mark_popup_messages_as_read() {
+        global $DB, $USER;
+
+        self::validate_context(context_system::instance());
+        return (new message_repository($DB))->mark_messages_as_read_for_user($USER->id);
+    }
+
+    protected static function mark_popup_messages_as_read_returns() {
+        return null;
+    }
+
+    protected static function mark_popup_messages_as_read_parameters() {
         return new external_function_parameters([]);
     }
 }

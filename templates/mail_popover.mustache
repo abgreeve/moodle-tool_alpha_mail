@@ -19,9 +19,20 @@
     {{$togglelabel}}{{#str}} showmessages, tool_alpha_mail {{/str}}{{/togglelabel}}
     {{$togglecontent}}
         {{#pix}} i/notifications, tool_alpha_mail, {{#str}} togglenotificationmenu, message {{/str}} {{/pix}}
+        <div class="count-container hidden" data-region="count-container"></div>
     {{/togglecontent}}
 
     {{$headertext}}{{#str}} alphamailmessages, tool_alpha_mail {{/str}}{{/headertext}}
+    {{$headeractions}}
+        <a class="mark-all-read-button"
+           href="#"
+           title="{{#str}} markallread {{/str}}"
+           data-action="mark-all-read"
+           role="button"
+        >
+        <span class="normal-icon">{{#pix}} t/markasread, core, {{#str}} markallread {{/str}} {{/pix}}</span>         {{> core/loading }}
+    {{/headeractions}}
+
 
     {{$content}}
         <div class="all-notifications"></div>

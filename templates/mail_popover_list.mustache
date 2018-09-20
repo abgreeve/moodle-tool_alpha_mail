@@ -15,7 +15,7 @@
     along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 }}
 {{#messages}}
-    <div class="content-item-container notification">
+    <div class="content-item-container notification {{^read}}unread{{/read}}">
         <div class="content-item-body">
             <div class="notification-message">{{body}}</div>
         </div>
