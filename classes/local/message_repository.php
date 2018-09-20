@@ -43,4 +43,8 @@ class message_repository {
     public function get_messages_for_user(int $userid) {
         return array_values($this->db->get_records('tool_alpha_mail_messages', ['userid' => $userid]));
     }
+
+    public function create_new_message($datarecord) {
+       return $this->db->insert_record('tool_alpha_mail_messages', $datarecord);
+    }
 }

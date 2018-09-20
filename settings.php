@@ -30,17 +30,7 @@ if ($hassiteconfig) {
     global $CFG, $DB;
     require_once($CFG->dirroot . '/admin/tool/alpha_mail/alpha_mail_message_setting.php');
 
-    $temp = new admin_settingpage('alphamail', 'Alpha Mail');
-    $temp->add(new admin_setting_heading('alphmail', 'Message', 'Messages for the boys!'));
-    $temp->add(
-        new alpha_mail_message_setting(
-            'alphamailmessage',
-            'Alpha Mail Message',
-            'Message for alpha mail',
-            null,
-            PARAM_TEXT
-        )
-    );
+    $temp = new admin_externalpage('alphamail', 'Alpha Mail', new moodle_url('/admin/tool/alpha_mail/admin.php'));
 
     $ADMIN->add('server', $temp);
 }

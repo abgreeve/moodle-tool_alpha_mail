@@ -15,15 +15,42 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Version information.
+ * This file contains the defaults form.
  *
  * @package   tool_alpha_mail
- * @copyright 2018 Cameron Ball <cameron@cameron1729.xyz>
+ * @copyright 2018 Adrian Greeve
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace tool_alpha_mail\form;
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2018091201;            // The current module version (Date: YYYYMMDDXX).
-$plugin->requires  = 2018090700;            // Requires this Moodle version.
-$plugin->component = 'tool_alpha_mail';      // Full name of the plugin (used for diagnostics).
+
+require_once($CFG->libdir . '/formslib.php');
+require_once($CFG->dirroot . '/' . $CFG->admin . '/tool/alpha_mail/lib.php');
+
+/**
+ * admin form.
+ *
+ * @package   tool_alpha_mail
+ * @copyright 2018 Adrian Greeve
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+class admin extends \moodleform {
+
+    /**
+     * Define the form.
+     */
+    public function definition() {
+        global $OUTPUT;
+
+        $mform = $this->_form;
+        // $mform->setDisableShortforms();
+
+        $mform->addElement('editor', 'body', 'Alpha Mail message', null, ['autosave' => false]);
+        $mform->setType('body', PARAM_CLEANHTML);
+
+        $this->add_action_buttons();
+
+    }
+}
