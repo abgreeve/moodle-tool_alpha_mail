@@ -27,7 +27,11 @@ defined('MOODLE_INTERNAL') || die();
 class alpha_mail_message_setting extends admin_setting_configtextarea {
     public function get_setting() {
         global $DB;
-        return $DB->get_record_sql('SELECT body FROM {tool_alpha_mail_messages} ORDER BY id DESC LIMIT 1')->body;
+        $settings = $DB->get_record_sql('SELECT body FROM {tool_alpha_mail_messages} ORDER BY id DESC LIMIT 1');
+        if (isset($settings->body)) {
+            return $settings->body;
+        }
+        return;
     }
 
     public function write_setting($data) {
