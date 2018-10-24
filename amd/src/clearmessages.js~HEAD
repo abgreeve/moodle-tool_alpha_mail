@@ -21,7 +21,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-define(['jquery'], function($) {
+define(['jquery', 'core/ajax'], function($, Ajax) {
 
     return {
         init: function() {
@@ -37,13 +37,16 @@ define(['jquery'], function($) {
             });
 
             dismiss.click(function() {
-                window.console.log('clicked');
-                $.ajax({
-                    url: M.cfg.wwwroot + "/admin/tool/alpha_mail/ajax.php"
-                }).done(function() {
-                    container.hide();
-                    trigger.hide();
-                });
+
+                Ajax.call([{
+                    methodname: 'tool_alpha_mail_clear_messages',
+                    args: {},
+                    done: function() {
+                        container.hide();
+                        trigger.hide();
+                    }.bind(this),
+                }]);
+
             });
 
         }
