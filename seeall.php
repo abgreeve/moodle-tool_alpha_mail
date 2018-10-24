@@ -31,11 +31,6 @@ $messages = $DB->get_records('tool_alpha_mail_messages', ['userid' => $USER->id]
 
 echo $OUTPUT->header();
 
-foreach ($messages as $message) {
-    $date = DateTime::createFromFormat('U', $message->created);
-    echo html_writer::start_tag('div');
-    echo "Message (" . $date->format('Y/m/d H:i:s') . "): " . $message->body;
-    echo html_writer::end_tag('div');
-}
+echo $OUTPUT->render_from_template('tool_alpha_mail/seeall', ['messages' => array_values($messages)]);
 
 echo $OUTPUT->footer();

@@ -51,7 +51,6 @@ function tool_alpha_mail_render_navbar_output(renderer_base $renderer) {
                 html_writer::link(new moodle_url('/admin/tool/alpha_mail/seeall.php'), 'See all') .
                 html_writer::end_tag('div');
 
-
         return $output;
     }
 
