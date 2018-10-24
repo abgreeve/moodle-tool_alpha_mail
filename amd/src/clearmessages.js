@@ -21,23 +21,31 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-var $ = window.jQuery;
-var container = $('#alpha_mail_container');
-var trigger = $('.trigger_alpha_mail');
-var dismiss = $('#alpha_mail_acknowledge');
+define(['jquery'], function($) {
 
-container.hide();
+    return {
+        init: function() {
 
-trigger.click(function() {
-    container.toggle();
-});
+            var container = $('#alpha_mail_container');
+            var trigger = $('.trigger_alpha_mail');
+            var dismiss = $('#alpha_mail_acknowledge');
 
-dismiss.click(function() {
-    window.console.log('clicked');
-    $.ajax({
-        url: M.cfg.wwwroot + "/admin/tool/alpha_mail/ajax.php"
-    }).done(function() {
-        container.hide();
-        trigger.hide();
-    });
+            container.hide();
+
+            trigger.click(function() {
+                container.toggle();
+            });
+
+            dismiss.click(function() {
+                window.console.log('clicked');
+                $.ajax({
+                    url: M.cfg.wwwroot + "/admin/tool/alpha_mail/ajax.php"
+                }).done(function() {
+                    container.hide();
+                    trigger.hide();
+                });
+            });
+
+        }
+    };
 });

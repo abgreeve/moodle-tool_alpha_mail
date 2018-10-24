@@ -1,0 +1,13 @@
+<span class="trigger_alpha_mail">{{#pix}} i/notifications, tool_alpha_mail, {{#str}} togglenotificationmenu, message {{/str}} {{/pix}}</span>
+<div id="alpha_mail_container">
+    {{body}}
+    <div id="alpha_mail_acknowledge">
+        Dismiss
+    </div>
+    <a href="{{{url}}}">See all</a>
+</div>
+{{#js}}
+require(['tool_alpha_mail/clearmessages'], function(clearmessages) {
+    clearmessages.init();
+});
+{{/js}}
